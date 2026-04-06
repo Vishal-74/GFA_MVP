@@ -49,10 +49,16 @@ function mergeEnvFromAncestors(startDir: string, maxDepth = 12) {
 const appDir = process.cwd()
 mergeEnvFromAncestors(appDir)
 
+// On Vercel, cwd is already the app root (`old/gfa`). Pointing tracing at the parent dir breaks
+// serverless output resolution (e.g. ENOENT for `.next/routes-manifest-deterministic.json`).
+// Keep monorepo lockfile tracing for local dev only.
+const isVercel = Boolean(process.env.VERCEL)
+
 const nextConfig: NextConfig = {
   typescript: { ignoreBuildErrors: true },
-  // Monorepo: silence "multiple lockfiles" when lockfiles exist in repo root + old/gfa (Next 16+ top-level key)
-  outputFileTracingRoot: path.join(appDir, ".."),
+  ...(!isVercel && {
+    outputFileTracingRoot: path.join(appDir, ".."),
+  }),
 }
 
 export default nextConfig
