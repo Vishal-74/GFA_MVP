@@ -1,0 +1,617 @@
+-- Demo catalogue + lectures (idempotent). Run after schema.sql + functions.sql.
+-- Apply migration-lectures-mcq.sql on existing DBs before first run.
+-- Mux playback ID: public Mux sample stream.
+
+-- Bachelor catalogue (§15 sample curriculum): fixed UUIDs for programme links; ON CONFLICT (id) so slug renames apply cleanly.
+INSERT INTO courses (id, slug, title, description, lecturer_name, lecturer_bio, price_cents, catalog_emoji, estimated_hours)
+VALUES
+  (
+    '11111111-1111-4111-8111-111111111101',
+    'foundations-of-human-transaction',
+    'Foundations of Human Transaction — Values, Leadership, Responsibility',
+    'Worldviews, personhood, truth and knowledge, values and ethics, law and politics, virtues, state and society, communication — foundations for responsible action (doc §15 series 1).',
+    'Dr. Richard Schütze',
+    'Lawyer, entrepreneur, consultant, and coach (Berlin).',
+    0,
+    '🤝',
+    24
+  ),
+  (
+    '11111111-1111-4111-8111-111111111102',
+    'austrian-economics-capital-theory',
+    'Austrian Economics and Capital Theory',
+    'Foundations of the Austrian School, capital-based macroeconomics and business cycles, money and banking, praxeology and methodology, libertarian governance themes — multi-module lecture series (doc §15 series 2).',
+    'Prof. Dr. Antony P. Mueller',
+    'Mises Institute São Paulo; capital theory and Austrian macroeconomics.',
+    7900,
+    '📈',
+    28
+  ),
+  (
+    '11111111-1111-4111-8111-111111111103',
+    'monetary-theory-i',
+    'Monetary Theory I',
+    'Menger and the origin of money, subjective value, Mises'' Theory of Money and Credit, inflation, Cantillon effects, fiat money and central banking (doc §15 series 3).',
+    'Benjamin Mudlack',
+    'Business informatics; Der ökonomische IQ; monetary theory and communication.',
+    4900,
+    '🪙',
+    20
+  ),
+  (
+    '11111111-1111-4111-8111-111111111104',
+    'monetary-theory-ii',
+    'Monetary Theory II',
+    'Deflation, time preference, interest, boom–bust, free-banking examples, critique of central banking (doc §15 series 4).',
+    'Benjamin Mudlack',
+    'Business informatics; Der ökonomische IQ; monetary theory and communication.',
+    5900,
+    '⚖️',
+    20
+  ),
+  (
+    '11111111-1111-4111-8111-111111111105',
+    'foundations-of-the-austrian-school',
+    'Foundations of the Austrian School',
+    'Epistemology, human action, goods and values, markets, interventionism, money, capital, business cycles, private-law society (doc §15 series 5).',
+    'Prof. Dr. Thorsten Polleit',
+    'Honorary Professor University of Bayreuth; President Ludwig von Mises Institute Germany.',
+    6900,
+    '🏛️',
+    26
+  ),
+  (
+    '11111111-1111-4111-8111-111111111106',
+    'interdisciplinary-intercultural-work',
+    'Interdisciplinary and Intercultural Work',
+    'Disciplinary perspectives, communication across fields, teamwork, conflict, creativity, mini case (doc §15 series 6).',
+    'Mag. Dr. Christian Machek',
+    'Vienna/Berlin; intercultural and interdisciplinary teaching.',
+    3900,
+    '🌍',
+    18
+  ),
+  (
+    '11111111-1111-4111-8111-111111111107',
+    'scientific-work',
+    'Scientific Work',
+    'Research questions, literature, writing and citation, paper structure, style, presentations (doc §15 series 7).',
+    'Mag. Dr. Christian Machek',
+    'Vienna/Berlin; academic skills and methodology.',
+    4900,
+    '📝',
+    16
+  ),
+  (
+    '11111111-1111-4111-8111-111111111108',
+    'praxeology-of-law',
+    'Praxeology of Law',
+    'Law from a praxeological view: emergence, agreed vs imposed law, property, IP, peaceful action (doc §15 series 8).',
+    'Dr. Andreas Tiedtke',
+    'Lawyer, publicist, author on praxeology and law.',
+    6900,
+    '⚖️',
+    22
+  ),
+  (
+    '11111111-1111-4111-8111-111111111109',
+    'obox-planet-private-law-society',
+    'The OboxPlanet — A Private Law Society in Theory and Images',
+    'Theory and practice of private-law society: security, infrastructure, social protection without state coercion (doc §15 series 9; Master track capstone in seed programmes).',
+    'Thomas Jacob',
+    'Economist and financial advisor; private-law society and institutional design.',
+    5900,
+    '🌐',
+    20
+  ),
+  (
+    '11111111-1111-4111-8111-111111111110',
+    'sales-innovation-management',
+    'Sales & Innovation Management (MBA)',
+    'Sales and innovation management foundations (technical plan §10.2 series 10).',
+    'Mag. Walter Schönthaler',
+    'Business executive and management expert.',
+    7900,
+    '🚀',
+    16
+  ),
+  (
+    '11111111-1111-4111-8111-111111111111',
+    'applied-economics',
+    'Applied Economics (VWL/MBA)',
+    'Applied economics with business-oriented perspective (technical plan §10.2 series 11).',
+    'Ilyas Kirecci',
+    'Lecturer in digital transformation and economics.',
+    7900,
+    '🧭',
+    18
+  ),
+  (
+    '11111111-1111-4111-8111-111111111112',
+    'hr-economics-business-economics',
+    'HR Economics / Business Economics',
+    'HR and business economics lecture series (technical plan §10.2 series 12).',
+    'Ilyas Kirecci',
+    'Lecturer in digital transformation and economics.',
+    6900,
+    '👥',
+    14
+  ),
+  (
+    '11111111-1111-4111-8111-111111111113',
+    'innovation-technology-management',
+    'Innovation & Technology Management',
+    'Innovation and technology management (technical plan §10.2 series 13).',
+    'TBD',
+    'Instructor to be confirmed.',
+    6900,
+    '🧪',
+    16
+  ),
+  (
+    '11111111-1111-4111-8111-111111111114',
+    'change-management',
+    'Change Management',
+    'Change management (technical plan §10.2 series 14).',
+    'TBD',
+    'Instructor to be confirmed.',
+    6900,
+    '🔁',
+    16
+  ),
+  (
+    '11111111-1111-4111-8111-111111111115',
+    'process-management',
+    'Process Management (3 parts)',
+    'Process management in three parts (technical plan §10.2 series 15).',
+    'TBD',
+    'Instructor to be confirmed.',
+    5900,
+    '🧩',
+    12
+  ),
+  (
+    '11111111-1111-4111-8111-111111111116',
+    'blockchain-technology-decentralized-apps',
+    'Blockchain Technology & Decentralized Apps',
+    'Blockchain technology foundations and decentralized application design (technical plan §10.2 series 16).',
+    'Prof. Dr. José Cano',
+    'Research & Consulting Director IDC España. Blockchain and decentralisation.',
+    7900,
+    '⛓️',
+    18
+  ),
+  (
+    '11111111-1111-4111-8111-111111111117',
+    'law-modules',
+    'Law Modules (4 sub-series)',
+    'A set of law lecture sub-series (~32 lectures total) covering core legal foundations (technical plan §10.2 series 17).',
+    'Pedro Ciesa Peral + Dr. Damian Roscher',
+    'Instructors to be confirmed; law modules as structured sub-series.',
+    9900,
+    '📚',
+    24
+  )
+ON CONFLICT (id) DO UPDATE SET
+  slug = EXCLUDED.slug,
+  title = EXCLUDED.title,
+  description = EXCLUDED.description,
+  lecturer_name = EXCLUDED.lecturer_name,
+  lecturer_bio = EXCLUDED.lecturer_bio,
+  price_cents = EXCLUDED.price_cents,
+  catalog_emoji = EXCLUDED.catalog_emoji,
+  estimated_hours = EXCLUDED.estimated_hours;
+
+-- Supabase RLS on `courses` in this project only exposes published rows to the anon role.
+-- Ensure seeded catalogue is visible in the web UI.
+UPDATE courses
+SET is_published = true
+WHERE id IN (
+  '11111111-1111-4111-8111-111111111101',
+  '11111111-1111-4111-8111-111111111102',
+  '11111111-1111-4111-8111-111111111103',
+  '11111111-1111-4111-8111-111111111104',
+  '11111111-1111-4111-8111-111111111105',
+  '11111111-1111-4111-8111-111111111106',
+  '11111111-1111-4111-8111-111111111107',
+  '11111111-1111-4111-8111-111111111108',
+  '11111111-1111-4111-8111-111111111109',
+  '11111111-1111-4111-8111-111111111110',
+  '11111111-1111-4111-8111-111111111111',
+  '11111111-1111-4111-8111-111111111112',
+  '11111111-1111-4111-8111-111111111113',
+  '11111111-1111-4111-8111-111111111114',
+  '11111111-1111-4111-8111-111111111115',
+  '11111111-1111-4111-8111-111111111116',
+  '11111111-1111-4111-8111-111111111117'
+);
+
+-- Expanded core courses (101–103): chapters with 3 videos + 5-question MCQ each.
+-- Run AFTER migration-lectures-mcq.sql on existing databases.
+
+DELETE FROM lecture_chunks WHERE lecture_id IN (SELECT id FROM lectures WHERE course_id IN ('11111111-1111-4111-8111-111111111101','11111111-1111-4111-8111-111111111102','11111111-1111-4111-8111-111111111103'));
+DELETE FROM progress WHERE lecture_id IN (SELECT id FROM lectures WHERE course_id IN ('11111111-1111-4111-8111-111111111101','11111111-1111-4111-8111-111111111102','11111111-1111-4111-8111-111111111103'));
+DELETE FROM lectures WHERE course_id IN ('11111111-1111-4111-8111-111111111101','11111111-1111-4111-8111-111111111102','11111111-1111-4111-8111-111111111103');
+
+INSERT INTO lectures (id, course_id, title, mux_asset_id, transcript, order_index, module_sequence, module_title, content_kind, mcq)
+VALUES
+  ('f0000001-0001-4001-8001-000000000001', '11111111-1111-4111-8111-111111111101', 'Liberty vs license', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Liberty vs license. Summary: connect to readings and discussion prompts.', 1, 1, 'Chapter 1 — What liberty means', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000002', '11111111-1111-4111-8111-111111111101', 'Negative and positive liberty', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Negative and positive liberty. Summary: connect to readings and discussion prompts.', 2, 1, 'Chapter 1 — What liberty means', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000003', '11111111-1111-4111-8111-111111111101', 'Rights as side-constraints', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Rights as side-constraints. Summary: connect to readings and discussion prompts.', 3, 1, 'Chapter 1 — What liberty means', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000004', '11111111-1111-4111-8111-111111111101', 'Exercise — Chapter 1 — What liberty means', NULL, NULL, 4, 1, 'Chapter 1 — What liberty means', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 1 — What liberty means: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 1 — What liberty means: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 1 — What liberty means: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 1 — What liberty means: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 1 — What liberty means: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000005', '11111111-1111-4111-8111-111111111101', 'Generality and predictability', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Generality and predictability. Summary: connect to readings and discussion prompts.', 5, 2, 'Chapter 2 — Rule of law', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000006', '11111111-1111-4111-8111-111111111101', 'Arbitrary rule and its costs', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Arbitrary rule and its costs. Summary: connect to readings and discussion prompts.', 6, 2, 'Chapter 2 — Rule of law', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000007', '11111111-1111-4111-8111-111111111101', 'Spontaneous order preview', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Spontaneous order preview. Summary: connect to readings and discussion prompts.', 7, 2, 'Chapter 2 — Rule of law', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000008', '11111111-1111-4111-8111-111111111101', 'Exercise — Chapter 2 — Rule of law', NULL, NULL, 8, 2, 'Chapter 2 — Rule of law', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 2 — Rule of law: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 2 — Rule of law: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 2 — Rule of law: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 2 — Rule of law: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 2 — Rule of law: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000009', '11111111-1111-4111-8111-111111111101', 'Separation of powers', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Separation of powers. Summary: connect to readings and discussion prompts.', 9, 3, 'Chapter 3 — Constitutions and power', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000000a', '11111111-1111-4111-8111-111111111101', 'Bills of rights in context', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Bills of rights in context. Summary: connect to readings and discussion prompts.', 10, 3, 'Chapter 3 — Constitutions and power', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000000b', '11111111-1111-4111-8111-111111111101', 'Federalism as a device', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Federalism as a device. Summary: connect to readings and discussion prompts.', 11, 3, 'Chapter 3 — Constitutions and power', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000000c', '11111111-1111-4111-8111-111111111101', 'Exercise — Chapter 3 — Constitutions and power', NULL, NULL, 12, 3, 'Chapter 3 — Constitutions and power', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 3 — Constitutions and power: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 3 — Constitutions and power: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 3 — Constitutions and power: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 3 — Constitutions and power: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 3 — Constitutions and power: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-00000000000d', '11111111-1111-4111-8111-111111111101', 'Why property rights scale cooperation', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Why property rights scale cooperation. Summary: connect to readings and discussion prompts.', 13, 4, 'Chapter 4 — Property and exchange', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000000e', '11111111-1111-4111-8111-111111111101', 'Voluntary exchange and information', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Voluntary exchange and information. Summary: connect to readings and discussion prompts.', 14, 4, 'Chapter 4 — Property and exchange', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000000f', '11111111-1111-4111-8111-111111111101', 'Common objections', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Common objections. Summary: connect to readings and discussion prompts.', 15, 4, 'Chapter 4 — Property and exchange', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000010', '11111111-1111-4111-8111-111111111101', 'Exercise — Chapter 4 — Property and exchange', NULL, NULL, 16, 4, 'Chapter 4 — Property and exchange', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 4 — Property and exchange: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 4 — Property and exchange: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 4 — Property and exchange: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 4 — Property and exchange: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 4 — Property and exchange: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000011', '11111111-1111-4111-8111-111111111101', 'Why dissent signals health', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Why dissent signals health. Summary: connect to readings and discussion prompts.', 17, 5, 'Chapter 5 — Dissent and civic life', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000012', '11111111-1111-4111-8111-111111111101', 'Speech and offence', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Speech and offence. Summary: connect to readings and discussion prompts.', 18, 5, 'Chapter 5 — Dissent and civic life', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000013', '11111111-1111-4111-8111-111111111101', 'Applying the toolkit', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Applying the toolkit. Summary: connect to readings and discussion prompts.', 19, 5, 'Chapter 5 — Dissent and civic life', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000014', '11111111-1111-4111-8111-111111111101', 'Exercise — Chapter 5 — Dissent and civic life', NULL, NULL, 20, 5, 'Chapter 5 — Dissent and civic life', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 5 — Dissent and civic life: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 5 — Dissent and civic life: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 5 — Dissent and civic life: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 5 — Dissent and civic life: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 5 — Dissent and civic life: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000015', '11111111-1111-4111-8111-111111111102', 'Reinforcing loops', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Reinforcing loops. Summary: connect to readings and discussion prompts.', 1, 1, 'Chapter 1 — Loops and behaviour', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000016', '11111111-1111-4111-8111-111111111102', 'Balancing loops', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Balancing loops. Summary: connect to readings and discussion prompts.', 2, 1, 'Chapter 1 — Loops and behaviour', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000017', '11111111-1111-4111-8111-111111111102', 'Drawing your first map', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Drawing your first map. Summary: connect to readings and discussion prompts.', 3, 1, 'Chapter 1 — Loops and behaviour', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000018', '11111111-1111-4111-8111-111111111102', 'Exercise — Chapter 1 — Loops and behaviour', NULL, NULL, 4, 1, 'Chapter 1 — Loops and behaviour', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 1 — Loops and behaviour: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 1 — Loops and behaviour: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 1 — Loops and behaviour: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 1 — Loops and behaviour: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 1 — Loops and behaviour: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000019', '11111111-1111-4111-8111-111111111102', 'Bathtub intuition', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Bathtub intuition. Summary: connect to readings and discussion prompts.', 5, 2, 'Chapter 2 — Stocks and flows', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000001a', '11111111-1111-4111-8111-111111111102', 'Delays and oscillation', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Delays and oscillation. Summary: connect to readings and discussion prompts.', 6, 2, 'Chapter 2 — Stocks and flows', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000001b', '11111111-1111-4111-8111-111111111102', 'Policy half-lives', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Policy half-lives. Summary: connect to readings and discussion prompts.', 7, 2, 'Chapter 2 — Stocks and flows', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000001c', '11111111-1111-4111-8111-111111111102', 'Exercise — Chapter 2 — Stocks and flows', NULL, NULL, 8, 2, 'Chapter 2 — Stocks and flows', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 2 — Stocks and flows: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 2 — Stocks and flows: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 2 — Stocks and flows: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 2 — Stocks and flows: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 2 — Stocks and flows: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-00000000001d', '11111111-1111-4111-8111-111111111102', 'Targets and Goodhart', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Targets and Goodhart. Summary: connect to readings and discussion prompts.', 9, 3, 'Chapter 3 — Incentives', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000001e', '11111111-1111-4111-8111-111111111102', 'Hidden rewards', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Hidden rewards. Summary: connect to readings and discussion prompts.', 10, 3, 'Chapter 3 — Incentives', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000001f', '11111111-1111-4111-8111-111111111102', 'Designing better metrics', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Designing better metrics. Summary: connect to readings and discussion prompts.', 11, 3, 'Chapter 3 — Incentives', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000020', '11111111-1111-4111-8111-111111111102', 'Exercise — Chapter 3 — Incentives', NULL, NULL, 12, 3, 'Chapter 3 — Incentives', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 3 — Incentives: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 3 — Incentives: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 3 — Incentives: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 3 — Incentives: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 3 — Incentives: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000021', '11111111-1111-4111-8111-111111111102', 'Meadows hierarchy', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Meadows hierarchy. Summary: connect to readings and discussion prompts.', 13, 4, 'Chapter 4 — Leverage', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000022', '11111111-1111-4111-8111-111111111102', 'Cheap vs effective moves', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Cheap vs effective moves. Summary: connect to readings and discussion prompts.', 14, 4, 'Chapter 4 — Leverage', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000023', '11111111-1111-4111-8111-111111111102', 'Ethics of intervention', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Ethics of intervention. Summary: connect to readings and discussion prompts.', 15, 4, 'Chapter 4 — Leverage', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000024', '11111111-1111-4111-8111-111111111102', 'Exercise — Chapter 4 — Leverage', NULL, NULL, 16, 4, 'Chapter 4 — Leverage', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 4 — Leverage: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 4 — Leverage: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 4 — Leverage: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 4 — Leverage: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 4 — Leverage: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000025', '11111111-1111-4111-8111-111111111102', 'Axes of uncertainty', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Axes of uncertainty. Summary: connect to readings and discussion prompts.', 17, 5, 'Chapter 5 — Scenarios', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000026', '11111111-1111-4111-8111-111111111102', 'Three futures exercise', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Three futures exercise. Summary: connect to readings and discussion prompts.', 18, 5, 'Chapter 5 — Scenarios', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000027', '11111111-1111-4111-8111-111111111102', 'Stress-testing a policy', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Stress-testing a policy. Summary: connect to readings and discussion prompts.', 19, 5, 'Chapter 5 — Scenarios', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000028', '11111111-1111-4111-8111-111111111102', 'Exercise — Chapter 5 — Scenarios', NULL, NULL, 20, 5, 'Chapter 5 — Scenarios', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 5 — Scenarios: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 5 — Scenarios: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 5 — Scenarios: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 5 — Scenarios: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 5 — Scenarios: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000029', '11111111-1111-4111-8111-111111111103', 'Dichotomy of control', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Dichotomy of control. Summary: connect to readings and discussion prompts.', 1, 1, 'Chapter 1 — Stoic foundations', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000002a', '11111111-1111-4111-8111-111111111103', 'Premeditatio malorum', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Premeditatio malorum. Summary: connect to readings and discussion prompts.', 2, 1, 'Chapter 1 — Stoic foundations', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000002b', '11111111-1111-4111-8111-111111111103', 'Journaling practice', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Journaling practice. Summary: connect to readings and discussion prompts.', 3, 1, 'Chapter 1 — Stoic foundations', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000002c', '11111111-1111-4111-8111-111111111103', 'Exercise — Chapter 1 — Stoic foundations', NULL, NULL, 4, 1, 'Chapter 1 — Stoic foundations', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 1 — Stoic foundations: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 1 — Stoic foundations: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 1 — Stoic foundations: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 1 — Stoic foundations: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 1 — Stoic foundations: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-00000000002d', '11111111-1111-4111-8111-111111111103', 'Confirmation bias', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Confirmation bias. Summary: connect to readings and discussion prompts.', 5, 2, 'Chapter 2 — Cognitive pitfalls', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000002e', '11111111-1111-4111-8111-111111111103', 'Motivated reasoning', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Motivated reasoning. Summary: connect to readings and discussion prompts.', 6, 2, 'Chapter 2 — Cognitive pitfalls', 'video', NULL),
+  ('f0000001-0001-4001-8001-00000000002f', '11111111-1111-4111-8111-111111111103', 'Steel-manning', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Steel-manning. Summary: connect to readings and discussion prompts.', 7, 2, 'Chapter 2 — Cognitive pitfalls', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000030', '11111111-1111-4111-8111-111111111103', 'Exercise — Chapter 2 — Cognitive pitfalls', NULL, NULL, 8, 2, 'Chapter 2 — Cognitive pitfalls', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 2 — Cognitive pitfalls: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 2 — Cognitive pitfalls: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 2 — Cognitive pitfalls: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 2 — Cognitive pitfalls: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 2 — Cognitive pitfalls: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000031', '11111111-1111-4111-8111-111111111103', 'Environment design', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Environment design. Summary: connect to readings and discussion prompts.', 9, 3, 'Chapter 3 — Habits and attention', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000032', '11111111-1111-4111-8111-111111111103', 'Attention as resource', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Attention as resource. Summary: connect to readings and discussion prompts.', 10, 3, 'Chapter 3 — Habits and attention', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000033', '11111111-1111-4111-8111-111111111103', 'Boundaries that stick', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Boundaries that stick. Summary: connect to readings and discussion prompts.', 11, 3, 'Chapter 3 — Habits and attention', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000034', '11111111-1111-4111-8111-111111111103', 'Exercise — Chapter 3 — Habits and attention', NULL, NULL, 12, 3, 'Chapter 3 — Habits and attention', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 3 — Habits and attention: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 3 — Habits and attention: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 3 — Habits and attention: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 3 — Habits and attention: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 3 — Habits and attention: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb),
+  ('f0000001-0001-4001-8001-000000000035', '11111111-1111-4111-8111-111111111103', 'Person vs position', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'Person vs position. Summary: connect to readings and discussion prompts.', 13, 4, 'Chapter 4 — Dialogue under pressure', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000036', '11111111-1111-4111-8111-111111111103', 'De-escalation moves', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'De-escalation moves. Summary: connect to readings and discussion prompts.', 14, 4, 'Chapter 4 — Dialogue under pressure', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000037', '11111111-1111-4111-8111-111111111103', 'When to exit', 'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe', 'When to exit. Summary: connect to readings and discussion prompts.', 15, 4, 'Chapter 4 — Dialogue under pressure', 'video', NULL),
+  ('f0000001-0001-4001-8001-000000000038', '11111111-1111-4111-8111-111111111103', 'Exercise — Chapter 4 — Dialogue under pressure', NULL, NULL, 16, 4, 'Chapter 4 — Dialogue under pressure', 'mcq_quiz', '{"questions":[{"prompt":"Chapter 4 — Dialogue under pressure: which best captures a central claim of this chapter?","options":["A precise distinction from the lectures","A random fact","A joke only","Undefined jargon"],"correctIndex":0},{"prompt":"Chapter 4 — Dialogue under pressure: a mistake to avoid is","options":["Treating liberty as mere whim","Reading slowly","Taking notes","Asking questions"],"correctIndex":0},{"prompt":"Chapter 4 — Dialogue under pressure: the best follow-up is","options":["Apply one idea to a real case","Stop practicing","Memorize buzzwords only","Ignore feedback"],"correctIndex":0},{"prompt":"Chapter 4 — Dialogue under pressure: which supports real understanding?","options":["Explaining the idea without slides","Only underlining","Skipping discussion","Avoiding the transcript"],"correctIndex":0},{"prompt":"Chapter 4 — Dialogue under pressure: exams reward answers that","options":["Use clear reasoning tied to themes","List names only","Copy without understanding","Stay vague"],"correctIndex":0}]}'::jsonb)
+ON CONFLICT (id) DO UPDATE SET
+  title = EXCLUDED.title,
+  mux_asset_id = EXCLUDED.mux_asset_id,
+  transcript = EXCLUDED.transcript,
+  order_index = EXCLUDED.order_index,
+  course_id = EXCLUDED.course_id,
+  module_sequence = EXCLUDED.module_sequence,
+  module_title = EXCLUDED.module_title,
+  content_kind = EXCLUDED.content_kind,
+  mcq = EXCLUDED.mcq;
+
+
+INSERT INTO lectures (id, course_id, title, mux_asset_id, transcript, order_index, module_sequence, module_title, content_kind, mcq)
+VALUES
+  (
+    '22222222-2222-4222-8222-222222222401',
+    '11111111-1111-4111-8111-111111111104',
+    'Prices as signals',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Prices compress information about scarcity and preferences. Interfering with prices has predictable side effects.',
+    1,
+    1,
+    'Core ideas',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222402',
+    '11111111-1111-4111-8111-111111111104',
+    'Supply, demand, and elasticity',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Who bears a tax? When do shortages appear? Elasticity tells you how much behaviour changes when conditions do.',
+    2,
+    1,
+    'Core ideas',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222403',
+    '11111111-1111-4111-8111-111111111104',
+    'Externalities and policy tools',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Pigou, Coase, and the limits of fixing markets from the centre.',
+    3,
+    2,
+    'Policy and trade',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222404',
+    '11111111-1111-4111-8111-111111111104',
+    'Trade, growth, and scepticism',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Comparative advantage without cheerleading. Reading claims about jobs and inequality.',
+    4,
+    2,
+    'Policy and trade',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222501',
+    '11111111-1111-4111-8111-111111111105',
+    'Threat models for everyday life',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Who are you protecting data from, and what is the realistic risk? proportionality matters.',
+    1,
+    1,
+    'Foundations',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222502',
+    '11111111-1111-4111-8111-111111111105',
+    'Encryption: what it does and does not do',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'End-to-end vs transport encryption, keys, and why metadata still leaks.',
+    2,
+    1,
+    'Foundations',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222503',
+    '11111111-1111-4111-8111-111111111105',
+    'Surveillance and business models',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Attention economies, ad tech, and regulatory responses in the EU and beyond.',
+    3,
+    2,
+    'Society and law',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222504',
+    '11111111-1111-4111-8111-111111111105',
+    'Laws, norms, and building habits',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'What you can control today: passwords, MFA, backups, and healthy scepticism.',
+    4,
+    2,
+    'Society and law',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222601',
+    '11111111-1111-4111-8111-111111111106',
+    'Frames and metaphors',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'How language hides or reveals trade-offs. Reframing without deceit.',
+    1,
+    1,
+    'Tools of meaning',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222602',
+    '11111111-1111-4111-8111-111111111106',
+    'Credibility and sources',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Triangulation, primary documents, and spotting motivated omission.',
+    2,
+    1,
+    'Tools of meaning',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222603',
+    '11111111-1111-4111-8111-111111111106',
+    'Persuasion and ethics',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Ethos, pathos, logos—and lines you should not cross.',
+    3,
+    2,
+    'Argument in practice',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222604',
+    '11111111-1111-4111-8111-111111111106',
+    'Writing a clear, honest argument',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Structure, objections, and revision. You will draft a short op-ed for peer review.',
+    4,
+    2,
+    'Argument in practice',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222701',
+    '11111111-1111-4111-8111-111111111107',
+    'Open data: promise and pitfalls',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'When publication helps accountability and when it becomes performative.',
+    1,
+    1,
+    'Openness and participation',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222702',
+    '11111111-1111-4111-8111-111111111107',
+    'Participatory budgeting walkthrough',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Design choices that make participation meaningful rather than tokenistic.',
+    2,
+    1,
+    'Openness and participation',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222703',
+    '11111111-1111-4111-8111-111111111107',
+    'Digital identity and inclusion',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Who is left out when services move online; practical mitigations.',
+    3,
+    2,
+    'Risks and guardrails',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222704',
+    '11111111-1111-4111-8111-111111111107',
+    'Procurement and vendor lock-in',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'How governments buy software and why exit matters.',
+    4,
+    2,
+    'Risks and guardrails',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222801',
+    '11111111-1111-4111-8111-111111111108',
+    'Medieval limits on the crown',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Charters, councils, and custom as early checks on rulers.',
+    1,
+    1,
+    'Roots of limited government',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222802',
+    '11111111-1111-4111-8111-111111111108',
+    'Enlightenment and written constitutions',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Social contract stories and their institutional aftermath.',
+    2,
+    1,
+    'Roots of limited government',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222803',
+    '11111111-1111-4111-8111-111111111108',
+    'Revolutions and bills of rights',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'America, France, and diverging paths.',
+    3,
+    1,
+    'Roots of limited government',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222804',
+    '11111111-1111-4111-8111-111111111108',
+    'Federalism and plural societies',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Layered authority as a peace-preserving device.',
+    4,
+    2,
+    'Modern constitutionalism',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222805',
+    '11111111-1111-4111-8111-111111111108',
+    'Courts, amendment, and emergency',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'How constitutions bend under stress.',
+    5,
+    2,
+    'Modern constitutionalism',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222901',
+    '11111111-1111-4111-8111-111111111109',
+    'Positions, interests, and needs',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Separating what people say they want from underlying interests.',
+    1,
+    1,
+    'Framework',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222902',
+    '11111111-1111-4111-8111-111111111109',
+    'BATNA and walk-away power',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Why your best alternative shapes every conversation.',
+    2,
+    1,
+    'Framework',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222903',
+    '11111111-1111-4111-8111-111111111109',
+    'Difficult conversations: structure',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Opening, exploring, deciding — without ambush.',
+    3,
+    2,
+    'Practice',
+    'video',
+    NULL
+  ),
+  (
+    '22222222-2222-4222-8222-222222222904',
+    '11111111-1111-4111-8111-111111111109',
+    'Anchoring, deadlines, and ethics',
+    'DS00Spx1CV902MCtPj5WknGlR102V5HFkDe',
+    'Common tactics and how to respond with integrity.',
+    4,
+    2,
+    'Practice',
+    'video',
+    NULL
+  )
+ON CONFLICT (id) DO UPDATE SET
+  title = EXCLUDED.title,
+  mux_asset_id = EXCLUDED.mux_asset_id,
+  transcript = EXCLUDED.transcript,
+  order_index = EXCLUDED.order_index,
+  course_id = EXCLUDED.course_id,
+  module_sequence = EXCLUDED.module_sequence,
+  module_title = EXCLUDED.module_title,
+  content_kind = EXCLUDED.content_kind,
+  mcq = EXCLUDED.mcq;

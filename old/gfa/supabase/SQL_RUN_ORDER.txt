@@ -1,0 +1,58 @@
+================================================================================
+SUPABASE SQL — WHAT TO RUN (GFA)
+================================================================================
+I cannot see your Supabase project. Run check-supabase-state.sql first, then only
+the migrations you are missing.
+
+--------------------------------------------------------------------------------
+A) DIAGNOSE (always safe)
+--------------------------------------------------------------------------------
+  check-supabase-state.sql     → Run in SQL Editor; read results only.
+
+Interpret quickly:
+  • lectures has NO content_kind / mcq     → run migration-lectures-mcq.sql
+  • lecture_chunks.embedding is vector(1536) → run migration-vector-768.sql
+  • match_chunks still says vector(1536)   → run functions.sql (768 version)
+  • Few courses / lectures vs your seed    → run seed.sql
+
+--------------------------------------------------------------------------------
+B) BRAND-NEW DATABASE (empty project)
+--------------------------------------------------------------------------------
+  1. schema.sql          → creates tables + pgvector
+  2. functions.sql       → match_chunks RPC
+  3. storage.sql         → exam-submissions bucket (once; may error if re-run)
+  4. seed.sql            → demo courses + lectures + MCQs
+
+Then locally: npm run embed:lectures  (needs GEMINI or OPENAI key + 768 DB)
+
+--------------------------------------------------------------------------------
+C) EXISTING DATABASE (you already had GFA tables)
+--------------------------------------------------------------------------------
+Run only what you still need (safe to skip if check shows you already have it):
+
+  1. migration-lecture-modules.sql   → catalog_emoji, estimated_hours, module_*
+  2. migration-lectures-mcq.sql      → content_kind, mcq, nullable mux_asset_id
+  3. migration-vector-768.sql        → ONLY if embeddings are still 1536-dim
+                                        (truncates lecture_chunks — backup if needed)
+  4. functions.sql                   → AFTER vector change: match_chunks vector(768)
+  5. seed.sql                        → refresh / expand data (destructive blocks inside
+                                        for courses 101–103 — see comments in file)
+
+After embed succeeds, optional:
+  migration-vector-768-index-after-embed.sql  → ivfflat index on lecture_chunks
+
+--------------------------------------------------------------------------------
+D) OPTIONAL / LEGACY (usually skip)
+--------------------------------------------------------------------------------
+  patch-lecture-mux-playback.sql   → only if old broken Mux IDs still in DB
+  seed-core-expanded.sql           → REMOVED from repo; use seed.sql or
+                                     npx tsx scripts/generate-core-courses-seed.ts
+
+--------------------------------------------------------------------------------
+E) LOCAL COMMANDS (after SQL)
+--------------------------------------------------------------------------------
+  cd gfa && npm run embed:lectures
+  cd gfa && npm run seed:demo      → optional demo user + enrollments
+  cd gfa && npm run dev
+
+================================================================================

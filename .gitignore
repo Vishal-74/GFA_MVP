@@ -1,0 +1,5 @@
+# Repo root — app ignores live in old/gfa/.gitignore
+.DS_Store
+.env
+.env.*
+!.env.example

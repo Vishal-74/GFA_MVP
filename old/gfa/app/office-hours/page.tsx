@@ -1,0 +1,49 @@
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { PublicShell } from '@/components/PublicShell'
+import AdmissionRequiredPanel from '@/components/AdmissionRequiredPanel'
+import { createServerSupabase } from '@/lib/supabase-server'
+import { userHasAdmission } from '@/lib/gfa-access'
+import { siteCopy } from '@/lib/site-content'
+
+export const dynamic = 'force-dynamic'
+
+export default async function OfficeHoursPage() {
+  const supabase = await createServerSupabase()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/login')
+  }
+
+  const admitted = await userHasAdmission(supabase, user.id)
+  const o = siteCopy.officeHours
+
+  return (
+    <PublicShell>
+      <div>
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-gfa-muted">{o.eyebrow}</p>
+        <h1 className="mt-4 font-display text-[clamp(1.75rem,4vw,2.5rem)] font-normal text-gfa-fg-bright">{o.title}</h1>
+        <p className="mt-4 text-[16px] leading-relaxed text-gfa-muted">{o.description}</p>
+
+        {!admitted ? (
+          <div className="mt-12">
+            <AdmissionRequiredPanel />
+          </div>
+        ) : (
+          <div className="mt-12 space-y-6 rounded-2xl border border-gfa-border bg-gfa-surface/60 p-8">
+            <p className="text-[15px] leading-relaxed text-gfa-muted">{o.admittedBody}</p>
+            <Link
+              href="/faculties"
+              className="inline-block rounded-full bg-gfa-accent px-5 py-2.5 text-[14px] font-medium text-gfa-on-accent hover:bg-gfa-accent-bright"
+            >
+              {o.facultiesCta}
+            </Link>
+          </div>
+        )}
+      </div>
+    </PublicShell>
+  )
+}

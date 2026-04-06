@@ -1,0 +1,8 @@
+{
+  "name": "untitled-folder",
+  "private": true,
+  "scripts": {
+    "db:apply-platform": "npm run db:apply-platform --prefix old/gfa",
+    "build:gfa": "npm run build --prefix old/gfa"
+  }
+}
